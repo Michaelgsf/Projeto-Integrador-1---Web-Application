@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row py-2 my-2">
+    <div class="col-md-9">
+        <h2>Listagem de produtos</h2>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-primary btn-block" href="{% url 'cadastro' %}"><i class="fa fa-plus-circle"></i>
+            Adicionar produto
+        </a>
+    </div>
+    {% comment %} <div class="col-md-3">
+        <a class="btn btn-primary btn-block" href="{% url 'relatorio_vendas' %}"><i class="fa fa-plus-circle"></i>
+            Relatório de vendas
+        </a>
+    </div> {% endcomment %}
+</div>
+
+<div class="table-responsible">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>preço</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.nome|capfirst }}</td>
+            <td>{{ user.quantidade }}</td>
+            <td>{{ user.preco }}</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic exemple">
+                    <a href="{% url 'modificar' user.pk %}" class="btn btn-warning"><i class='fa fa-edit'></i></a>
+                    <a href="{% url 'deletar' user.pk %}" class="btn btn-danger"><i class='fa fa-trash-alt'></i></a>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">
+                Não há produtos cadastrados
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
