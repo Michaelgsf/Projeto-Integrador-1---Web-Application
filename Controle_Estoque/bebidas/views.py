@@ -49,6 +49,7 @@ def refresh(request, user_id):
         form = BebidaForm(data=request.POST,instance=user)
 
         if form.is_valid():
+            form.save()
             return redirect(index)
     else:
         form = BebidaForm(instance=user)
