@@ -1,13 +1,17 @@
 from django import forms
-from .models import Bebida
+from .models import Bebidas, Venda
 
 # modelForm
 
 
 class BebidaForm(forms.ModelForm):
     class Meta:
-        model = Bebida
+        model = Bebidas
         fields = ['nome', 'quantidade', 'preco']
 
+class VendaForm(forms.ModelForm):
+    class Meta:
+        model = Venda
+        fields = ['nome', 'quantidade']
 
 # form.Form

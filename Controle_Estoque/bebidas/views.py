@@ -1,15 +1,16 @@
 from django.shortcuts import render
+from django.contrib import messages
 
 # Create your views here.
 from datetime import date
 from django.shortcuts import render, redirect
-from .forms import BebidaForm
-from .models import Bebida
+from .forms import BebidaForm, VendaForm
+from .models import Bebidas, Venda
 
 
 def index(request):
 
-    users = Bebida.objects.all()
+    users = Bebidas.objects.all()
 
     context = {
         'users': users
@@ -39,11 +40,33 @@ def create(request):
             form.save()
             """- usados pra salvar sem a pagina dinámica"""
             return redirect(index)
+        
+def create_sell(request):
+
+    # GET
+    # POST
+    # PUT
+    # DELETE
+
+    if request.method == 'GET':
+        form = VendaForm()
+        # muito importante essa barte abaixo
+
+        context = {
+            'form': form,
+        }
+        return render(request, 'vendas.html', context=context)
+    else:
+        form = VendaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            """- usados pra salvar sem a pagina dinámica"""
+            return redirect(index)
 
 
 def refresh(request, user_id):
 
-    user = Bebida.objects.get(pk=user_id)
+    user = Bebidas.objects.get(pk=user_id)
 
     if request.method == 'POST':
         form = BebidaForm(data=request.POST,instance=user)
@@ -61,9 +84,30 @@ def refresh(request, user_id):
 
 def delete(request, user_id):
 
-    user = Bebida.objects.get(pk=user_id)
+    user = Bebidas.objects.get(pk=user_id)
     user.delete()
 
     return redirect(index)
 
+def sell(request):
+    if request.method == 'POST':
+        form = VendaForm(data=request.POST)
 
+        if form.is_valid():
+            nome = form.cleaned_data['nome']
+            quantidade_vendida = form.cleaned_data['quantidade']
+
+            if quantidade_vendida <= nome.quantidade:
+                nome.quantidade -= quantidade_vendida
+                nome.save()
+                form.save()
+                return redirect('index')
+            else:
+                form.add_error('quantidade', 'Quantidade insuficiente em estoque.')
+                messages.error(request, 'Quantidade insuficiente em estoque.')
+    else:
+        form = VendaForm()
+
+    context = {'form': form}
+
+    return render(request, 'vendas.html', context=context)

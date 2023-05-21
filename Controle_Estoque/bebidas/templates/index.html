@@ -2,19 +2,18 @@
 
 {% block content %}
 <div class="row py-2 my-2">
+    <h1> BONDE BEBIDAS </h1>
     <div class="col-md-9">
         <h2>Listagem de produtos</h2>
     </div>
     <div class="col-md-3">
         <a class="btn btn-primary btn-block" href="{% url 'cadastro' %}"><i class="fa fa-plus-circle"></i>
-            Adicionar produto
-        </a>
+            Cadastrar produto
+        </a> 
+        <a class="btn btn-primary btn-block" href="{% url 'vendas' %}"><i class="fa fa-minus-circle"></i>
+            Saída de produto
+        </a>      
     </div>
-    {% comment %} <div class="col-md-3">
-        <a class="btn btn-primary btn-block" href="{% url 'relatorio_vendas' %}"><i class="fa fa-plus-circle"></i>
-            Relatório de vendas
-        </a>
-    </div> {% endcomment %}
 </div>
 
 <div class="table-responsible">
@@ -23,7 +22,7 @@
         <tr>
             <th>Nome</th>
             <th>Quantidade</th>
-            <th>preço</th>
+            <th>Preço</th>
         </tr>
         </thead>
         <tbody>

@@ -2,9 +2,19 @@
 
 {% block content %}
 
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
 <form method="post" autocomplete="off">
     {% csrf_token %}
-
+    <div class="col-md-9">
+        <h2>Saída de Produtos</h2>
+    </div>
     {% for field in form %}
     <div class="form.group row">
         <label form="{{ field.id_for_label }}" class="col-sm-2 col-form-label">{{ field.label }}</label>
@@ -21,11 +31,13 @@
     {% endif %}
     {% endfor %}
     <div class="d-flex justify-content-start">
-        <button class="btn btn-primary" type="submit" name="acao" value="salvar">Salvar</button>
+        <button class="btn btn-primary" type="submit" name="acao" value="salvar">Confirmar venda</button>
     </div>
     <div class="d-flex justify-content-start">
-        <a class="btn btn-primary" href="{% url 'index' %}">Sair</a>
+        <a class="btn btn-primary" href="{% url 'index' %}">Cancelar</a>
     </div>
+    
+    
 
 </form>
 
