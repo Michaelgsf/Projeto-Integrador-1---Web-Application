@@ -4,7 +4,9 @@
 
 <form method="post" autocomplete="off">
     {% csrf_token %}
-
+    <div class="col-md-9">
+        <h2>Cadastro de Produtos</h2>
+    </div>
     {% for field in form %}
     <div class="form.group row">
         <label form="{{ field.id_for_label }}" class="col-sm-2 col-form-label">{{ field.label }}</label>
