@@ -2,6 +2,15 @@
 
 {% block content %}
 
+
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
 <form method="post" autocomplete="off">
     {% csrf_token %}
     <div class="col-md-9">

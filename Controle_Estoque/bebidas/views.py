@@ -19,17 +19,9 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def create(request):
-
-    # GET
-    # POST
-    # PUT
-    # DELETE
-
+def cadastro(request):
     if request.method == 'GET':
         form = BebidaForm()
-        # muito importante essa barte abaixo
-
         context = {
             'form': form,
         }
@@ -37,33 +29,20 @@ def create(request):
     else:
         form = BebidaForm(request.POST)
         if form.is_valid():
+            nome = form.cleaned_data['nome']
+            if Bebidas.objects.filter(nome=nome).exists():
+                messages.error(request, 'Já existe um produto com esse nome.')
+                context = {'form': form}
+                return render(request, 'cadastro.html', context=context)
             form.save()
-            """- usados pra salvar sem a pagina dinámica"""
-            return redirect(index)
+            messages.success(request, 'Produto cadastrado com sucesso.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Ocorreu um erro no cadastro do produto.')
+            context = {'form': form}
+            return render(request, 'cadastro.html', context=context)
         
-def create_sell(request):
-
-    # GET
-    # POST
-    # PUT
-    # DELETE
-
-    if request.method == 'GET':
-        form = VendaForm()
-        # muito importante essa barte abaixo
-
-        context = {
-            'form': form,
-        }
-        return render(request, 'vendas.html', context=context)
-    else:
-        form = VendaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            """- usados pra salvar sem a pagina dinámica"""
-            return redirect(index)
-
-
+        
 def refresh(request, user_id):
 
     user = Bebidas.objects.get(pk=user_id)
