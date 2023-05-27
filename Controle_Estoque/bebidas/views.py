@@ -35,7 +35,6 @@ def cadastro(request):
                 context = {'form': form}
                 return render(request, 'cadastro.html', context=context)
             form.save()
-            messages.success(request, 'Produto cadastrado com sucesso.')
             return redirect('index')
         else:
             messages.error(request, 'Ocorreu um erro no cadastro do produto.')
